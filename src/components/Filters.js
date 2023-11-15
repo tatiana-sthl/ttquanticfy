@@ -34,20 +34,29 @@ const Filters = ({ onEspacesVertsFilterChange, onEquipementsFilterChange, onFont
 
   const handleEspacesVertsFilterChange = (event) => {
     const { name, value } = event.target;
-    setEspaceVertsFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
-    onEspacesVertsFilterChange(espaceVertsFilters);
+    setEspaceVertsFilters((prevFilters) => {
+      const updatedFilters = { ...prevFilters, [name]: value };
+      onEspacesVertsFilterChange(updatedFilters); // Appeler la fonction de rappel ici
+      return updatedFilters; // Retourner les filtres mis à jour pour setState
+    });
   };
-
+  
   const handleEquipementsFilterChange = (event) => {
     const { name, value } = event.target;
-    setEquipementsFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
-    onEquipementsFilterChange(equipementsFilters);
+    setEquipementsFilters((prevFilters) => {
+      const updatedFilters = { ...prevFilters, [name]: value };
+      onEquipementsFilterChange(updatedFilters); // Appeler la fonction de rappel ici
+      return updatedFilters; // Retourner les filtres mis à jour pour setState
+    });
   };
-
+  
   const handleFontainesFilterChange = (event) => {
     const { name, value } = event.target;
-    setFontainesFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
-    onFontainesFilterChange(fontainesFilters);
+    setFontainesFilters((prevFilters) => {
+      const updatedFilters = { ...prevFilters, [name]: value };
+      onFontainesFilterChange(updatedFilters); // Appeler la fonction de rappel ici
+      return updatedFilters; // Retourner les filtres mis à jour pour setState
+    });
   };
 
   return (

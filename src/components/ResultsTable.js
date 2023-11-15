@@ -1,4 +1,23 @@
-// ResultsTable.js
+// ...
+
+const applyFilters = (data, filters) => {
+    // Vérifier si des filtres sont définis
+    if (!filters) {
+      return data;
+    }
+  
+    // Filtrer les données en fonction des filtres
+    return data.filter((item) => {
+      // Ajoutez ici la logique de filtrage pour chaque propriété
+      const typeMatch = filters.type ? item.type === filters.type : true;
+      const payantMatch = filters.payant ? item.payant === filters.payant : true;
+      const arrondissementMatch = filters.arrondissement ? item.arrondissement === filters.arrondissement : true;
+      // ... Ajoutez d'autres conditions pour les autres filtres
+  
+      // Retourner vrai uniquement si toutes les conditions sont satisfaites
+      return typeMatch && payantMatch && arrondissementMatch;
+    });
+  };
 
 const ResultsTable = ({ data1, data2, data3, espacesVertsFilters, equipementsFilters, fontainesFilters }) => {
     const espacesVertsData = data2?.results?.map((result) => ({
@@ -29,7 +48,6 @@ const ResultsTable = ({ data1, data2, data3, espacesVertsFilters, equipementsFil
     const filteredEquipementsData = applyFilters(equipementsData, equipementsFilters);
     const filteredFontainesData = applyFilters(fontainesData, fontainesFilters);
   
-  
     return (
       <div>
         <h2>Résultats</h2>
@@ -46,7 +64,7 @@ const ResultsTable = ({ data1, data2, data3, espacesVertsFilters, equipementsFil
           </thead>
           <tbody>
             {/* Afficher les données pour les espaces verts */}
-            {espacesVertsData.map((item, index) => (
+            {filteredEspacesVertsData.map((item, index) => (
               <tr key={index}>
                 <td>{item.nom}</td>
                 <td>{item.type}</td>
@@ -55,7 +73,7 @@ const ResultsTable = ({ data1, data2, data3, espacesVertsFilters, equipementsFil
               </tr>
             ))}
             {/* Répéter le processus pour les équipements et activités */}
-            {equipementsData.map((item, index) => (
+            {filteredEquipementsData.map((item, index) => (
               <tr key={index}>
                 <td>{item.nom}</td>
                 <td>{item.type}</td>
@@ -64,7 +82,7 @@ const ResultsTable = ({ data1, data2, data3, espacesVertsFilters, equipementsFil
               </tr>
             ))}
             {/* Répéter le processus pour les fontaines à boire */}
-            {fontainesData.map((item, index) => (
+            {filteredFontainesData.map((item, index) => (
               <tr key={index}>
                 <td>{item.typeObjet}</td>
                 <td>{item.modele}</td>
@@ -77,25 +95,8 @@ const ResultsTable = ({ data1, data2, data3, espacesVertsFilters, equipementsFil
       </div>
     );
   };
-
-  const applyFilters = (data, filters) => {
-    // Vérifier si des filtres sont définis
-    if (!filters) {
-      return data;
-    }
   
-    // Filtrer les données en fonction des filtres
-    return data.filter((item) => {
-      // Ajoutez ici la logique de filtrage pour chaque propriété
-      const typeMatch = filters.type ? item.type === filters.type : true;
-      const payantMatch = filters.payant ? item.payant === filters.payant : true;
-      const arrondissementMatch = filters.arrondissement ? item.arrondissement === filters.arrondissement : true;
-      // ... Ajoutez d'autres conditions pour les autres filtres
-  
-      // Retourner vrai uniquement si toutes les conditions sont satisfaites
-      return typeMatch && payantMatch && arrondissementMatch;
-    });
-  };
+  // ...
   
   
   export default ResultsTable;

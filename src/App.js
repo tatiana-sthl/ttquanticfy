@@ -13,6 +13,30 @@ function App() {
   const [data2, setData2] = useState(null);
   const [data3, setData3] = useState(null);
 
+  const [espaceVertsFilters, setEspaceVertsFilters] = useState({
+    type: "",
+    payant: "",
+    arrondissement: "",
+    statutOuverture: "",
+    disponibilite: "",
+  });
+
+  const [equipementsFilters, setEquipementsFilters] = useState({
+    type: "",
+    payant: "",
+    arrondissement: "",
+    statutOuverture: "",
+    disponibilite: "",
+  });
+
+  const [fontainesFilters, setFontainesFilters] = useState({
+    typeObjet: "",
+    modele: "",
+    dispo: "",
+    voie: "",
+    commune: "",
+  });
+
   const handleEspacesVertsFilterChange = (filters) => {
     // Mettez à jour les filtres ou effectuez une action appropriée ici
     console.log('Filtres pour espaces verts :', filters);
@@ -69,7 +93,14 @@ function App() {
       onEquipementsFilterChange={handleEquipementsFilterChange}
       onFontainesFilterChange={handleFontainesFilterChange}
     />
-    <ResultsTable data1={data1} data2={data2} data3={data3} />
+    <ResultsTable
+  data1={data1}
+  data2={data2}
+  data3={data3}
+  espacesVertsFilters={espaceVertsFilters}
+  equipementsFilters={equipementsFilters}
+  fontainesFilters={fontainesFilters}
+/>
       <Footer />
     </div>
   );
