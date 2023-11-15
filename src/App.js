@@ -1,6 +1,11 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Filters from './components/Filters';
+import ResultsTable from './components/ResultsTable';
+
 
 function App() {
   const [data1, setData1] = useState(null);
@@ -44,6 +49,9 @@ function App() {
   
   return (
     <div className="App">
+      <Header />
+      <Filters />
+      <ResultsTable />
       <div>
         <h2>Données de la première API</h2>
         {data1 ? (
@@ -70,6 +78,7 @@ function App() {
           <p>Chargement en cours...</p>
         )}
       </div>
+      <Footer />
     </div>
   );
 }
