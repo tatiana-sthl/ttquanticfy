@@ -51,7 +51,9 @@ function App() {
     <div className="App">
       <Header />
       <Filters />
-      <ResultsTable />
+      <ResultsTable data1={data1} data2={data2} data3={data3} />
+      <Footer />
+{/* 
       <div>
         <h2>Données de la première API</h2>
         {data1 ? (
@@ -77,8 +79,7 @@ function App() {
         ) : (
           <p>Chargement en cours...</p>
         )}
-      </div>
-      <Footer />
+      </div> */}
     </div>
   );
 }
