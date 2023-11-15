@@ -1,7 +1,6 @@
 // ResultsTable.js
 
-const ResultsTable = ({ data1, data2, data3 }) => {
-    // Extraire les données spécifiques pour les espaces verts
+const ResultsTable = ({ data1, data2, data3, espacesVertsFilters, equipementsFilters, fontainesFilters }) => {
     const espacesVertsData = data2?.results?.map((result) => ({
       nom: result.nom,
       type: result.type,
@@ -9,16 +8,14 @@ const ResultsTable = ({ data1, data2, data3 }) => {
       arrondissement: result.arrondissement,
     })) || [];
   
-    // Extraire les données spécifiques pour les équipements et activités
     const equipementsData = data1?.results?.map((result) => ({
       nom: result.nom,
       type: result.type,
-      payant: result.payant || 'Non', // Si la propriété payant n'est pas définie, affichez 'Non'
+      payant: result.payant || 'Non',
       adresse: result.adresse,
       arrondissement: result.arrondissement,
     })) || [];
   
-    // Extraire les données spécifiques pour les fontaines à boire
     const fontainesData = data3?.results?.map((result) => ({
       typeObjet: result.type_objet,
       modele: result.modele,
@@ -26,6 +23,12 @@ const ResultsTable = ({ data1, data2, data3 }) => {
       voie: result.voie,
       commune: result.commune,
     })) || [];
+  
+    // Filter data based on filters
+    const filteredEspacesVertsData = applyFilters(espacesVertsData, espacesVertsFilters);
+    const filteredEquipementsData = applyFilters(equipementsData, equipementsFilters);
+    const filteredFontainesData = applyFilters(fontainesData, fontainesFilters);
+  
   
     return (
       <div>
@@ -74,6 +77,26 @@ const ResultsTable = ({ data1, data2, data3 }) => {
       </div>
     );
   };
+
+  const applyFilters = (data, filters) => {
+    // Vérifier si des filtres sont définis
+    if (!filters) {
+      return data;
+    }
+  
+    // Filtrer les données en fonction des filtres
+    return data.filter((item) => {
+      // Ajoutez ici la logique de filtrage pour chaque propriété
+      const typeMatch = filters.type ? item.type === filters.type : true;
+      const payantMatch = filters.payant ? item.payant === filters.payant : true;
+      const arrondissementMatch = filters.arrondissement ? item.arrondissement === filters.arrondissement : true;
+      // ... Ajoutez d'autres conditions pour les autres filtres
+  
+      // Retourner vrai uniquement si toutes les conditions sont satisfaites
+      return typeMatch && payantMatch && arrondissementMatch;
+    });
+  };
+  
   
   export default ResultsTable;
   

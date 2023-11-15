@@ -1,5 +1,5 @@
 // Filters.js
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const Filters = ({ onEspacesVertsFilterChange, onEquipementsFilterChange, onFontainesFilterChange }) => {
   const [espaceVertsFilters, setEspaceVertsFilters] = useState({
@@ -35,19 +35,19 @@ const Filters = ({ onEspacesVertsFilterChange, onEquipementsFilterChange, onFont
   const handleEspacesVertsFilterChange = (event) => {
     const { name, value } = event.target;
     setEspaceVertsFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
-    onEspacesVertsFilterChange(espaceVertsFilters); // Ajoutez ceci pour mettre à jour les filtres dans ResultsTable
+    onEspacesVertsFilterChange(espaceVertsFilters);
   };
 
   const handleEquipementsFilterChange = (event) => {
     const { name, value } = event.target;
     setEquipementsFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
-    onEquipementsFilterChange(equipementsFilters); // Ajoutez ceci pour mettre à jour les filtres dans ResultsTable
+    onEquipementsFilterChange(equipementsFilters);
   };
 
   const handleFontainesFilterChange = (event) => {
     const { name, value } = event.target;
     setFontainesFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
-    onFontainesFilterChange(fontainesFilters); // Ajoutez ceci pour mettre à jour les filtres dans ResultsTable
+    onFontainesFilterChange(fontainesFilters);
   };
 
   return (
@@ -95,6 +95,8 @@ const Filters = ({ onEspacesVertsFilterChange, onEquipementsFilterChange, onFont
         ))}
       </select>
 
+      <button onClick={handleEspacesVertsFilterChange}>Appliquer filtres Espaces Verts</button>
+
       <h3>Equipements et Activités</h3>
       <label>Type :</label>
       <select name="type" onChange={handleEquipementsFilterChange}>
@@ -136,6 +138,8 @@ const Filters = ({ onEspacesVertsFilterChange, onEquipementsFilterChange, onFont
         ))}
       </select>
 
+      <button onClick={handleEquipementsFilterChange}>Appliquer filtres Equipements</button>
+
       <h3>Fontaines à Boire</h3>
       <label>Type d'objet :</label>
       <select name="typeObjet" onChange={handleFontainesFilterChange}>
@@ -166,6 +170,8 @@ const Filters = ({ onEspacesVertsFilterChange, onEquipementsFilterChange, onFont
         <option value="">Tous</option>
         {/* Ajoutez des options spécifiques aux fontaines à boire ici */}
       </select>
+
+      <button onClick={handleFontainesFilterChange}>Appliquer filtres Fontaines</button>
     </div>
   );
 }

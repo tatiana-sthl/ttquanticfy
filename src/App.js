@@ -8,12 +8,27 @@ import ResultsTable from './components/ResultsTable';
 
 
 function App() {
+
   const [data1, setData1] = useState(null);
   const [data2, setData2] = useState(null);
   const [data3, setData3] = useState(null);
 
+  const handleEspacesVertsFilterChange = (filters) => {
+    // Mettez à jour les filtres ou effectuez une action appropriée ici
+    console.log('Filtres pour espaces verts :', filters);
+  };
 
-  useEffect(() => {
+  const handleEquipementsFilterChange = (filters) => {
+    // Mettez à jour les filtres ou effectuez une action appropriée ici
+    console.log('Filtres pour équipements et activités :', filters);
+  };
+
+  const handleFontainesFilterChange = (filters) => {
+    // Mettez à jour les filtres ou effectuez une action appropriée ici
+    console.log('Filtres pour fontaines à boire :', filters);
+  };
+
+ useEffect(() => {
     const fetchData1 = async () => {
       try {
         const response = await axios.get('https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/ilots-de-fraicheur-equipements-activites/records?limit=20');
@@ -44,42 +59,18 @@ function App() {
     fetchData1();
     fetchData2();
     fetchData3();
-
   }, []);
-  
+
   return (
     <div className="App">
       <Header />
-      <Filters />
-      <ResultsTable data1={data1} data2={data2} data3={data3} />
+      <Filters
+      onEspacesVertsFilterChange={handleEspacesVertsFilterChange}
+      onEquipementsFilterChange={handleEquipementsFilterChange}
+      onFontainesFilterChange={handleFontainesFilterChange}
+    />
+    <ResultsTable data1={data1} data2={data2} data3={data3} />
       <Footer />
-{/* 
-      <div>
-        <h2>Données de la première API</h2>
-        {data1 ? (
-          <pre>{JSON.stringify(data1, null, 2)}</pre>
-        ) : (
-          <p>Chargement en cours...</p>
-        )}
-      </div>
-
-      <div>
-        <h2>Données de la deuxième API</h2>
-        {data2 ? (
-          <pre>{JSON.stringify(data2, null, 2)}</pre>
-        ) : (
-          <p>Chargement en cours...</p>
-        )}
-      </div>
-
-      <div>
-        <h2>Données de la troisième API</h2>
-        {data3 ? (
-          <pre>{JSON.stringify(data3, null, 2)}</pre>
-        ) : (
-          <p>Chargement en cours...</p>
-        )}
-      </div> */}
     </div>
   );
 }
