@@ -1,4 +1,3 @@
-// Filters.js
 import React, { useState } from 'react';
 
 const Filters = ({ onTypeChange, onPayantChange }) => {
@@ -6,7 +5,6 @@ const Filters = ({ onTypeChange, onPayantChange }) => {
   const [payantFilter, setPayantFilter] = useState("");
 
   const types = ["Type1", "Type2"]; // Remplacez par vos types réels
-  const payants = ["Oui", "Non"]; // Remplacez par vos valeurs réelles
 
   const handleTypeChange = (event) => {
     const { value } = event.target;
@@ -15,9 +13,9 @@ const Filters = ({ onTypeChange, onPayantChange }) => {
   };
 
   const handlePayantChange = (event) => {
-    const { value } = event.target;
-    setPayantFilter(value);
-    onPayantChange(value);
+    const { checked } = event.target;
+    setPayantFilter(checked ? "Oui" : "Non");
+    onPayantChange(checked ? "Oui" : "Non");
   };
 
   return (
@@ -33,12 +31,26 @@ const Filters = ({ onTypeChange, onPayantChange }) => {
       </select>
 
       <label>Payant :</label>
-      <select name="payant" onChange={handlePayantChange}>
-        <option value="">Tous</option>
-        {payants.map((payant, index) => (
-          <option key={index} value={payant}>{payant}</option>
-        ))}
-      </select>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            name="payant"
+            checked={payantFilter === "Oui"}
+            onChange={handlePayantChange}
+          />
+          Oui
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            name="payant"
+            checked={payantFilter === "Non"}
+            onChange={handlePayantChange}
+          />
+          Non
+        </label>
+      </div>
     </div>
   );
 }
