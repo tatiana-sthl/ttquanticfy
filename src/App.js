@@ -1,3 +1,5 @@
+import './App.css';
+
 import React, { useState, useEffect } from 'react';
 
 const YourComponent = () => {
@@ -54,11 +56,11 @@ const YourComponent = () => {
   }, []); // Empty dependency array to ensure the effect runs only once on mount
 
   return (
-    <div>
+    <div className='App'>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <div>
+        <div className="results-container">
           <table>
             <thead>
               <tr>
