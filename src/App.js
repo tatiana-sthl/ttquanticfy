@@ -24,18 +24,29 @@ const YourComponent = () => {
       const limit = 100;
       const totalItems = 484;
       let offset = 0;
+      let uniqueNames = new Set(); // Utiliser un ensemble pour stocker les noms uniques
       let allData = [];
 
       while (offset < totalItems) {
         const result = await fetchData(limit, offset);
-        allData = [...allData, ...result];
+
+        // Filtrer les résultats pour ne conserver que les noms uniques
+        const uniqueResults = result.filter(item => {
+          if (!uniqueNames.has(item.nom)) {
+            uniqueNames.add(item.nom);
+            return true;
+          }
+          return false;
+        });
+
+        allData = [...allData, ...uniqueResults];
         offset += limit;
       }
 
       allData.sort((a, b) => a.nom.localeCompare(b.nom));
 
       setData(allData);
-      setTotalResults(totalItems);
+      setTotalResults(uniqueNames.size);
       setIsLoading(false);
     };
 
@@ -68,7 +79,7 @@ const YourComponent = () => {
               ))}
             </tbody>
           </table>
-          <p>Total des résultats : {totalResults}</p>
+          <p>Total des résultats uniques : {totalResults}</p>
         </div>
       )}
     </div>
