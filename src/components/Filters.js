@@ -1,58 +1,88 @@
-// import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
-// const Filters = ({ onTypeChange, onPayantChange }) => {
-//   const [typeFilter, setTypeFilter] = useState("");
-//   const [payantFilter, setPayantFilter] = useState("");
+const Filters = ({ onFilterChange, data }) => {
+  const filterValuesRef = useRef({
+    nom: '',
+    type: '',
+    payant: false,
+    arrondissement: '',
+  });
 
-//   const types = ["Type1", "Type2"]; // Remplacez par vos types réels
+  const [typeOptions, setTypeOptions] = useState([]);
+  const [filterValues, setFilterValues] = useState(filterValuesRef.current);
 
-//   const handleTypeChange = (event) => {
-//     const { value } = event.target;
-//     setTypeFilter(value);
-//     onTypeChange(value);
-//   };
+  useEffect(() => {
+    // Définir les options de type dans les filtres une fois que le jeu de données est chargé
+    setTypeOptions([...new Set(data.map(item => item.type))]);
+  }, [data]);
 
-//   const handlePayantChange = (event) => {
-//     const { checked } = event.target;
-//     setPayantFilter(checked ? "Oui" : "Non");
-//     onPayantChange(checked ? "Oui" : "Non");
-//   };
+  useEffect(() => {
+    // Mettre à jour les filtres uniquement si les valeurs ont changé
+    if (filterValuesRef.current !== filterValues) {
+      onFilterChange(filterValues);
+      filterValuesRef.current = filterValues;
+    }
+  }, [onFilterChange, filterValues]);
 
-//   return (
-//     <div>
-//       <h2>Filtres</h2>
+  // Générer la liste des arrondissements de 75001 à 75020
+  const arrondissementOptions = Array.from({ length: 20 }, (_, index) => `750${index + 1 > 9 ? index + 1 : '0' + (index + 1)}`);
 
-//       <label>Type :</label>
-//       <select name="type" onChange={handleTypeChange}>
-//         <option value="">Tous</option>
-//         {types.map((type, index) => (
-//           <option key={index} value={type}>{type}</option>
-//         ))}
-//       </select>
+  const handleInputChange = (field, value) => {
+    setFilterValues(prevValues => ({ ...prevValues, [field]: value }));
+  };
 
-//       <label>Payant :</label>
-//       <div>
-//         <label>
-//           <input
-//             type="checkbox"
-//             name="payant"
-//             checked={payantFilter === "Oui"}
-//             onChange={handlePayantChange}
-//           />
-//           Oui
-//         </label>
-//         <label>
-//           <input
-//             type="checkbox"
-//             name="payant"
-//             checked={payantFilter === "Non"}
-//             onChange={handlePayantChange}
-//           />
-//           Non
-//         </label>
-//       </div>
-//     </div>
-//   );
-// }
 
-// export default Filters;
+  return (
+    <div>
+      <label>
+        Nom:
+        <input
+          type="text"
+          value={filterValues.nom}
+          onChange={e => handleInputChange('nom', e.target.value)}
+        />
+      </label>
+
+      <label>
+        Type:
+        <select
+          value={filterValues.type}
+          onChange={e => handleInputChange('type', e.target.value)}
+        >
+          <option value="">Tous les types</option>
+          {typeOptions.map(type => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label>
+        Payant:
+        <input
+          type="checkbox"
+          checked={filterValues.payant}
+          onChange={() => handleInputChange('payant', !filterValues.payant)}
+        />
+      </label>
+
+      <label>
+        Arrondissement:
+        <select
+          value={filterValues.arrondissement}
+          onChange={e => handleInputChange('arrondissement', e.target.value)}
+        >
+          <option value="">Tous les arrondissements</option>
+          {arrondissementOptions.map(arr => (
+            <option key={arr} value={arr}>
+              {arr}
+            </option>
+          ))}
+        </select>
+      </label>
+    </div>
+  );
+};
+
+export default Filters;

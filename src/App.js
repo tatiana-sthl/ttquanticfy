@@ -1,9 +1,10 @@
 import './App.css';
-
 import React, { useState, useEffect } from 'react';
+import Filters from './components/Filters'; // Assurez-vous que le chemin du fichier Filters.js est correct
 
 const YourComponent = () => {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [totalResults, setTotalResults] = useState(0);
 
@@ -34,7 +35,8 @@ const YourComponent = () => {
 
         // Filtrer les résultats pour ne conserver que les noms uniques
         const uniqueResults = result.filter(item => {
-          if (!uniqueNames.has(item.nom)) {
+          const isExcluded = ['Centre Paris Anim\' Marc Sangnier', 'Le CENTQUATRE - PARIS'].includes(item.nom);
+          if (!isExcluded && !uniqueNames.has(item.nom)) {
             uniqueNames.add(item.nom);
             return true;
           }
@@ -48,6 +50,7 @@ const YourComponent = () => {
       allData.sort((a, b) => a.nom.localeCompare(b.nom));
 
       setData(allData);
+      setFilteredData(allData);
       setTotalResults(uniqueNames.size);
       setIsLoading(false);
     };
@@ -55,8 +58,23 @@ const YourComponent = () => {
     getAllData();
   }, []); // Empty dependency array to ensure the effect runs only once on mount
 
+  const handleFilterChange = filters => {
+    // Appliquer les filtres sur les données et mettre à jour l'état des données filtrées
+    const filteredResults = data.filter(item => {
+      return (
+        item.nom.toLowerCase().includes(filters.nom.toLowerCase()) &&
+        (filters.type === '' || item.type === filters.type) &&
+        (filters.payant === false || item.payant === 'Oui') &&
+        (filters.arrondissement === '' || item.arrondissement === filters.arrondissement)
+      );
+    });
+
+    setFilteredData(filteredResults);
+  };
+
   return (
     <div className='App'>
+      <Filters onFilterChange={handleFilterChange} data={data} />
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -71,7 +89,7 @@ const YourComponent = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map(item => (
+              {filteredData.map(item => (
                 <tr key={item.identifiant}>
                   <td>{item.nom}</td>
                   <td>{item.type}</td>
