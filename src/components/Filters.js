@@ -58,14 +58,45 @@ const Filters = ({ onFilterChange, data }) => {
         </select>
       </label>
 
+
       <label>
         Payant:
-        <input
-          type="checkbox"
-          checked={filterValues.payant}
-          onChange={() => handleInputChange('payant', !filterValues.payant)}
-        />
-      </label>
+        <div>
+            <input
+                type="radio"
+                id="payantTous"
+                name="payant"
+                value={null}
+                checked={filterValues.payant === null}
+                onChange={() => handleInputChange('payant', null)}
+            />
+            <label htmlFor="payantTous">Tous</label>
+        </div>
+
+        <div>
+            <input
+            type="radio"
+            id="payantOui"
+            name="payant"
+            value="Oui"
+            checked={filterValues.payant === 'Oui'}
+            onChange={() => handleInputChange('payant', 'Oui')}
+            />
+            <label htmlFor="payantOui">Oui</label>
+        </div>
+        <div>
+            <input
+            type="radio"
+            id="payantNon"
+            name="payant"
+            value="Non"
+            checked={filterValues.payant === 'Non'}
+            onChange={() => handleInputChange('payant', 'Non')}
+            />
+            <label htmlFor="payantNon">Non</label>
+        </div>
+        </label>
+
 
       <label>
         Arrondissement:

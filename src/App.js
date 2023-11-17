@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import Filters from './components/Filters'; // Assurez-vous que le chemin du fichier Filters.js est correct
+import Filters from './components/Filters'; 
 
 const YourComponent = () => {
   const [data, setData] = useState([]);
@@ -64,7 +64,7 @@ const YourComponent = () => {
       return (
         item.nom.toLowerCase().includes(filters.nom.toLowerCase()) &&
         (filters.type === '' || item.type === filters.type) &&
-        (filters.payant === false || item.payant === 'Oui') &&
+        (filters.payant === null || item.payant === filters.payant) &&
         (filters.arrondissement === '' || item.arrondissement === filters.arrondissement)
       );
     });
@@ -99,7 +99,6 @@ const YourComponent = () => {
               ))}
             </tbody>
           </table>
-          <p>Total des résultats uniques : {totalResults}</p>
         </div>
       )}
     </div>
